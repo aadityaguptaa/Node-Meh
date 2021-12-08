@@ -1,6 +1,8 @@
 var express = require('express')
-
+var fortune = require('./lib/fortune.js')
 var app = express()
+
+
 
 var handlebars = require('express3-handlebars')
     .create({defaultLayout:'main'})
@@ -17,7 +19,7 @@ app.get('/', function(req, res){
 })
 
 app.get('/about', function(req, res){
-    res.render('about')
+    res.render('about', {'fortune': fortune.getFortune()})
 })
 app.use(function(req, res){
     res.status(404)
