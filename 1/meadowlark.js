@@ -21,6 +21,20 @@ app.get('/', function(req, res){
 app.get('/about', function(req, res){
     res.render('about', {'fortune': fortune.getFortune()})
 })
+
+app.get('/headers', function(req, res){
+    res.set('Content-Type', 'text/plain')
+    var s = ''
+    for(var data in req.headers) s += data + ":" + req.headers[data] + "\n"
+    res.send(s)
+})
+
+app.use(function(req, res, next){
+    res.locals.showTests = app.get('env') !== 'production' &&
+    req.query.test === '1';
+    next();
+   });
+
 app.use(function(req, res){
     res.status(404)
     res.render("404")
@@ -31,6 +45,8 @@ app.use(function(err, req, res, next){
     res.status(500)
     res.render('500')
 })
+
+
 
 
 
